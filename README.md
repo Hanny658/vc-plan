@@ -1,33 +1,34 @@
-# vc-plan
+# Cross-Project ExecPlan Skeleton
 
-`vc-plan` is a governance-first template for AI coding workflows based
-on a living `PLANS.md` execution specification.
+This repository provides a reusable Markdown skeleton for running
+coding-agent workflows across projects.
 
-## What This Repository Is
+## What You Get
 
-This repository demonstrates how to run multi-step engineering work with
-stateless agents by using:
+- `PLANS.md`: a living ExecPlan with state, decisions, and validation.
+- `AGENTS.md`: execution policy that agents must follow.
 
-- `PLANS.md` as the canonical execution state and design document.
-- `AGENTS.md` as the operational policy that governs agent behavior.
+The core addition in this version is a mandatory preliminary step:
+`Project Intention Buildup`.
 
-The current milestone focuses on planning governance, not runtime
-feature implementation.
+## Project Intention Buildup
 
-## How an Agent Should Start
+Before implementation, the agent must:
 
-1. Read [PLANS.md](./PLANS.md) end-to-end.
-2. Read [AGENTS.md](./AGENTS.md) end-to-end.
-3. Select exactly one next unchecked item in the `Progress` section of
-   `PLANS.md`.
-4. Execute that item, run verification, and update plan evidence before
-   moving on.
+1. Extract intent from the user prompt.
+2. Infer project context from the current repository structure.
+3. Fill project-specific sections in `PLANS.md`.
+4. Ask the user whenever high-impact details are uncertain.
 
-## Execution Rules Location
+This gate prevents silent assumptions and improves cross-session
+reliability.
 
-- Living specification and execution state: [PLANS.md](./PLANS.md)
-- Agent policy and safety constraints: [AGENTS.md](./AGENTS.md)
-- Source methodology: [OpenAI Cookbook article][execplan-doc]
+## How To Reuse In Another Repository
+
+1. Copy `PLANS.md` and `AGENTS.md` into the target repository root.
+2. Replace placeholders in `PLANS.md` during intention buildup.
+3. Start execution from the first unchecked `Progress` item.
+4. Keep `Progress`, `Decision Log`, and findings updated every step.
 
 ## Verification Baseline
 
@@ -35,7 +36,12 @@ Preferred command when available:
 
 - `npx markdownlint-cli "**/*.md"`
 
-If unavailable, perform manual structural verification and record the
-result in the session summary and plan evidence.
+If unavailable, do manual structural verification and record the result
+in the session summary.
+
+## Methodology Reference
+
+- [OpenAI Cookbook: Using PLANS.md for multi-hour problem solving]
+  [execplan-doc]
 
 [execplan-doc]: https://developers.openai.com/cookbook/articles/codex_exec_plans

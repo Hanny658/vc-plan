@@ -1,170 +1,155 @@
-# Governance-First ExecPlan for vc-plan
+# Cross-Project Governance-First ExecPlan Skeleton
 
 This ExecPlan is a living document. The sections `Progress`,
 `Surprises & Discoveries`, `Decision Log`, and
 `Outcomes & Retrospective` must be kept up to date as work proceeds.
 
-This repository uses [PLANS.md](./PLANS.md) as the source of truth and
-follows the OpenAI ExecPlan methodology in the Codex cookbook article on
-multi-hour problem solving.
+Use this file as a reusable skeleton across repositories. At project
+start, replace placeholder values and keep this file as the single source
+of execution state.
 
 ## Purpose / Big Picture
 
-This repository standardizes how AI coding agents and humans coordinate
-long-running implementation work. After this refactor, a stateless agent
-can enter the repo, read this file, identify exactly one next actionable
-step, execute that step with verification, and leave durable evidence for
-the next contributor.
+Project: [PROJECT_NAME]
 
-The user-visible outcome is deterministic handoff quality: no hidden
-context, no ambiguous "current status" interpretation, and no skipped
-verification. The repository remains governance-first in this milestone;
-runtime features in `src/` and `tests/` are intentionally out of scope.
+User problem to solve: [PROBLEM_STATEMENT]
+
+Observable outcome after delivery: [USER_VISIBLE_OUTCOME]
+
+Out of scope for this plan: [NON_GOALS]
+
+This plan must enable a stateless coding agent to understand project
+intent, execute one step at a time, and leave auditable evidence for
+resumption by another agent or human.
 
 ## Progress
 
-- [x] (2026-04-18 00:00Z) Created initial repository scaffolding and
-  first-pass `README.md`, `PLANS.md`, and `AGENTS.md`.
-- [x] (2026-04-18 00:00Z) Replaced status-table-driven planning with an
-  ExecPlan-first structure where checkbox progress is authoritative.
-- [x] (2026-04-18 00:00Z) Aligned `AGENTS.md` startup protocol to read
-  plan sections, execute one unchecked step, verify, and update evidence.
-- [x] (2026-04-18 00:00Z) Upgraded `README.md` into an operator guide
-  that points to the living spec and execution policy.
-- [x] (2026-04-18 00:00Z) Validated documents with
-  `npx markdownlint-cli "**/*.md"` and resolved lint findings.
-- [ ] Start Phase 2 by adding a minimal demo application and mapping it
-  to this ExecPlan workflow.
+- [ ] (YYYY-MM-DD HH:MMZ) Project Intention Buildup (required first
+  step): derive project-specific intent from the user prompt and current
+  repository structure; for any uncertainty, ask the user before moving
+  to implementation.
+- [ ] (YYYY-MM-DD HH:MMZ) Lock milestone-1 scope and acceptance behavior
+  from the intention record.
+- [ ] (YYYY-MM-DD HH:MMZ) Implement one verified milestone with minimal
+  related edits.
+- [ ] (YYYY-MM-DD HH:MMZ) Capture findings, decisions, and follow-up
+  steps for the next session.
 
 ## Surprises & Discoveries
 
-- Observation: Agents follow small, atomic steps more reliably than broad
-  phase descriptions.
-  Evidence: Earlier plans with mixed prose and long checklists increased
-  ambiguity when selecting the next task.
+Record noteworthy findings discovered during execution.
 
-- Observation: Shared state is more robust when progress lives in one
-  checkbox list with timestamps.
-  Evidence: Status tables and separate progress bars can drift from real
-  execution state.
+Entry template:
 
-- Observation: Verification instructions are dependable when they are
-  executable commands with fallback guidance.
-  Evidence: Command-based acceptance criteria reduce interpretation
-  variance between sessions.
+- Observation: [what was unexpected]
+  Impact: [High | Medium | Low]
+  Evidence: [command output, failing test, or concrete behavior]
+  Action: [what should be done next]
 
 ## Decision Log
 
-- Decision: Use `Progress` checkboxes with timestamps as the only
-  execution-state authority.
-  Rationale: A stateless agent must identify the next step deterministically
-  without reconciling multiple status representations.
-  Date/Author: 2026-04-18 / Codex
+Record every meaningful implementation or planning decision.
 
-- Decision: Keep this milestone governance-only and avoid runtime
-  implementation work.
-  Rationale: The priority is reproducible planning and handoff behavior
-  before feature delivery.
-  Date/Author: 2026-04-18 / Codex
+Entry template:
 
-- Decision: Preserve strict constraints from legacy instructions while
-  rewriting them as execution-facing policy.
-  Rationale: Safety and scope control are already valuable and should
-  remain stable during structural refactor.
+- Decision: [what was chosen]
+  Rationale: [why this path]
+  Date/Author: [YYYY-MM-DD / agent-or-human]
+
+Seed decision:
+
+- Decision: Add `Project Intention Buildup` as a mandatory preliminary
+  step before all implementation work.
+  Rationale: Reusable skeletons fail when project-specific intent is
+  implicit; this step makes intent explicit and auditable.
   Date/Author: 2026-04-18 / Codex
 
 ## Outcomes & Retrospective
 
-This milestone established an ExecPlan-first contract for repository
-governance. The planning surface now prioritizes explicit intent,
-executable steps, deterministic verification, and resumable evidence.
+Summarize completed outcomes at each major milestone or session end.
+Compare actual results to the purpose defined above.
 
-What remains is operational proof through ongoing work: complete the
-pending markdown validation item, then run Phase 2 work using this
-process to confirm the governance model scales to runtime tasks.
+Entry template:
+
+- Outcome: [what was completed]
+  Verification: [PASS | FAIL with short note]
+  Gap: [what remains]
+  Lesson: [what to keep or change next time]
 
 ## Context and Orientation
 
-The repository currently contains three governance artifacts:
+Fill this section during `Project Intention Buildup`.
 
-- `PLANS.md`: canonical living specification and execution state.
-- `AGENTS.md`: policy file defining how agents must consume and update
-  `PLANS.md`.
-- `README.md`: operator entrypoint for humans and agents.
-
-No production runtime modules have been introduced yet. Future work is
-expected under `src/` and `tests/`, but this milestone intentionally
-does not modify those paths.
+- Product or service context: [brief description]
+- Primary users: [who benefits]
+- Key paths/modules: [repo-relative paths]
+- Runtime/toolchain baseline: [language, package manager, test runner]
+- Constraints: [security, compliance, deadlines, performance]
 
 ## Plan of Work
 
-The governance refactor proceeds by making `PLANS.md` self-contained and
-outcome-oriented, then updating `AGENTS.md` so agent behavior is derived
-from this contract. Finally, `README.md` is rewritten as a concise
-operator guide that makes onboarding trivial for new contributors.
+Always start with `Project Intention Buildup` before coding.
 
-All changes are documentation-only and additive in purpose. Any future
-structural change to this plan must be recorded as a revision note at the
-end of this file with date, change description, and rationale.
+During intention buildup, combine two inputs:
+
+1. User prompt requirements and constraints.
+2. Existing repository structure, manifests, and implemented behavior.
+
+If any high-impact requirement remains uncertain after repository
+inspection, ask the user directly and wait for clarification before
+proceeding.
+
+After intent is locked, execute exactly one unchecked `Progress` item,
+verify it, and then update `Progress`, `Decision Log`, and
+`Surprises & Discoveries` as needed.
 
 ## Concrete Steps
 
-Run commands from repository root:
-`c:\Users\hanny\Desktop\MyProjectSpace\vc-plan`.
+Run commands from repository root `[REPO_ROOT_PATH]`.
 
-1. Rebuild `PLANS.md` with required top-level sections and migrate status
-   semantics to timestamped progress checkboxes.
-2. Update `AGENTS.md` so startup and completion procedures consume and
-   update the living plan contract.
-3. Rewrite `README.md` into an operator guide pointing to `PLANS.md` and
-   `AGENTS.md`.
-4. Run markdown lint when available:
-   `npx markdownlint-cli "**/*.md"`
-5. If lint is unavailable, manually verify heading structure, link
-   correctness, and checklist semantics, then record verification in the
-   session summary and evidence log.
+1. Project Intention Buildup.
+   - Read the latest user prompt.
+   - Inspect repository structure and existing implementation.
+   - Fill placeholders in `Purpose / Big Picture`,
+     `Context and Orientation`, and `Interfaces and Dependencies`.
+   - List unresolved assumptions.
+   - Ask user about unresolved, high-impact unknowns.
+2. Convert clarified intent into one concrete unchecked `Progress` item.
+3. Execute only that item with minimal related edits.
+4. Run verification commands from `Validation and Acceptance`.
+5. Record evidence and keep next step clearly visible in `Progress`.
 
 ## Validation and Acceptance
 
-Acceptance for this milestone is behavioral and documentation-driven:
+Define project-specific validation during intention buildup.
 
-- Fresh-start simulation: a new agent can read `README.md`, then
-  `PLANS.md`, and identify exactly one next unchecked `Progress` item.
-- Resume simulation: after a partial session, another agent can continue
-  from `Progress`, `Decision Log`, and revision notes.
-- Discovery simulation: when new information appears, the agent records it
-  in `Surprises & Discoveries` with evidence and updates `Decision Log`
-  if course changes.
-- Constraint regression: `AGENTS.md` still enforces one-step scope,
-  mandatory verification, no unrelated edits, no direct push to `main`,
-  and no dependencies without finding and approval.
+Required validation blocks:
 
-Verification command for this repository:
+- Structural/documentation checks: [COMMAND_OR_MANUAL_CHECK]
+- Automated tests: [TEST_COMMAND]
+- Scenario check: [manual behavior to observe]
 
-- `npx markdownlint-cli "**/*.md"`
+Acceptance standard:
 
-Expected result:
-
-- Lint passes, or lint is unavailable and manual verification is recorded
-  with rationale and no structural defects.
+- The completed step changes behavior or evidence in a way a human can
+  verify.
+- Verification result is recorded with PASS or FAIL.
+- No previously passing checks regress.
 
 ## Idempotence and Recovery
 
-These documentation steps are idempotent. Re-running the workflow should
-only append new evidence or revision notes, not corrupt state.
+Plan steps must be safe to re-run.
 
-If an edit is interrupted, restore coherent Markdown first, then update
-`Progress` to reflect exact completion status using separate done and
-remaining items. Never infer completion without verification evidence.
-
-If command-based verification fails due to missing tooling, do not install
-new dependencies automatically. Record the limitation, do manual
-verification, and add a follow-up unchecked item for toolchain enablement.
+- Re-running a completed documentation step should append evidence, not
+  corrupt historical state.
+- If interrupted, split partially completed work into done and remaining
+  `Progress` items.
+- If verification tooling is unavailable, record the limitation, perform
+  manual checks, and create a follow-up item to restore automation.
 
 ## Artifacts and Notes
 
-Use this standard session summary for every completed step (commit
-message, PR description, or equivalent trace location):
+Use these templates for every step.
 
 Session summary template:
 
@@ -173,27 +158,37 @@ Session summary template:
 - Next step: [next unchecked item]
 - Blockers: [none | description]
 
-Change evidence should remain concise and auditable. Preferred evidence
-includes command output snippets, checklist state transitions, and
-references to updated policy text.
+Project intention record template:
+
+- Goal: [one-sentence mission]
+- Success criteria: [observable outputs]
+- In scope: [boundaries]
+- Out of scope: [boundaries]
+- Known risks: [top risks]
+- Open questions for user: [must-answer uncertainties]
 
 ## Interfaces and Dependencies
 
-Documentation interface contract:
+Documentation contract (cross-project):
 
 - `PLANS.md` is the source of truth for execution state.
-- `AGENTS.md` is execution policy and must be consistent with `PLANS.md`.
-- `README.md` is the operator entrypoint and must point to both files.
+- `AGENTS.md` is execution policy and must be consistent with
+  `PLANS.md`.
+- `README.md` is the operator entrypoint.
 
-Repository behavior contract:
+Project contract (fill during intention buildup):
 
-- No runtime API or type changes are part of this governance milestone.
-- New dependencies are forbidden unless explicitly logged and approved.
-- Verification is mandatory for every completed step.
+- Public interfaces affected: [API/CLI/schema/module names]
+- Backward compatibility policy: [required behavior]
+- Dependency policy: [allowed additions and approval rules]
 
 ### Plan Revision Notes (append-only)
 
-- 2026-04-18: Replaced phase-table format with an ExecPlan-first living
-  spec and removed `Current Status` table dependency.
-  Reason: Establish deterministic, stateless execution based on one
-  authoritative progress list.
+- 2026-04-18: Converted repository-specific plan into a cross-project
+  reusable skeleton with placeholders and templates.
+  Reason: Enable reuse across repositories while preserving ExecPlan
+  rigor.
+- 2026-04-18: Added mandatory `Project Intention Buildup` preliminary
+  step with explicit user-clarification gate for uncertain requirements.
+  Reason: Ensure project-specific intent is derived explicitly before
+  implementation.
