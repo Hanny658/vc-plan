@@ -1,120 +1,111 @@
 # AGENTS.md
 
-> Instructions for AI coding agents (Codex, Claude Code, and similar) working in this repository.  
-> Read this file **at the start of every session** before taking any action.
+Instructions for AI coding agents working in this repository.
+Read this file at the start of every session before taking action.
 
----
+## Agent Identity and Scope
 
-## 🤖 Agent Identity & Scope
+You are an AI coding agent assisting with the `vc-plan` project.
+Your primary responsibility is to execute one unchecked item at a time
+from [PLANS.md](./PLANS.md), verify the result, and leave auditable
+evidence.
 
-You are an AI coding agent assisting with the **vc-plan** project.  
-Your primary responsibility is to advance the implementation described in [`PLANS.md`](./PLANS.md)  
-one phase at a time, in small, verifiable steps.
+`PLANS.md` is the source of truth for execution state. If this file
+conflicts with `PLANS.md`, follow `PLANS.md` and record the mismatch in
+`Decision Log`.
 
----
+## Session Startup Protocol
 
-## 📋 Session Startup Checklist
+Before writing code or editing files:
 
-Before writing any code or making any changes, complete the following:
+1. Read `PLANS.md` fully, focusing on `Purpose / Big Picture`,
+   `Progress`, `Decision Log`, `Concrete Steps`, and
+   `Validation and Acceptance`.
+2. Read `AGENTS.md` fully to confirm policy constraints.
+3. Identify exactly one next unchecked item in `Progress`.
+4. Summarize intended action in one sentence.
+5. Confirm scope is limited to that single unchecked item unless the
+   human explicitly broadens scope.
 
-1. **Read `PLANS.md`** — identify the current phase and the next unchecked step.
-2. **Read `AGENTS.md`** (this file) — confirm you understand the constraints and conventions.
-3. **Check the `Current Status` table** in `PLANS.md` — note any areas marked 🔄 or ⬜.
-4. **Summarise your intended action** in one sentence before proceeding.
-5. **Confirm scope** — only work on the single next unchecked step unless explicitly told otherwise.
+Do not use any status table as execution authority. Progress checkboxes
+in `PLANS.md` are authoritative.
 
----
+## Working Rules
 
-## 🛠 Working Conventions
+- Execute one logical step at a time.
+- Keep changes minimal and directly related to the selected step.
+- Do not perform unrelated refactors or cleanup.
+- Preserve existing behavior and keep previously passing checks green.
+- Prefer small commits aligned to one logical change.
 
-### General
+## Completion and Evidence Protocol
 
-- **One step at a time.** Complete and verify one checklist item before moving to the next.
-- **Small commits.** Each commit should correspond to exactly one logical change.
-- **No unrelated changes.** Do not refactor, rename, or clean up code that is not part of the current step.
-- **Preserve existing behaviour.** All previously passing tests must still pass after your change.
+After completing a step, the agent must update `PLANS.md` in the same
+session:
 
-### Files
+1. Mark the completed `Progress` item as checked with timestamp if not
+   already present.
+2. Add or update relevant entries in `Decision Log` when design choices
+   were made.
+3. Add concise changelog evidence in `Artifacts and Notes` and/or session
+   trace.
+4. Ensure the next actionable item remains clearly unchecked.
 
-| File         | Purpose                                     | Who updates it            |
-|--------------|---------------------------------------------|---------------------------|
-| `PLANS.md`   | Project plan, status, findings, progress    | Agent **and** human       |
-| `AGENTS.md`  | Agent instructions and conventions          | Human (primary), Agent OK |
-| `README.md`  | Public-facing project description           | Human                     |
-| `src/`       | Application source code (Phase 2+)          | Agent                     |
-| `tests/`     | Automated tests (Phase 2+)                  | Agent                     |
+For each step, include this summary block in commit message, PR
+description, or equivalent trace:
 
-### Updating `PLANS.md` after each step
+Session summary template:
 
-After completing a step, the agent **must**:
+- Step completed: [step name]
+- Verification: [PASS / FAIL - brief note]
+- Next step: [next unchecked item]
+- Blockers: [none | description]
 
-1. Mark the completed checklist item with `[x]`.
-2. Update the `Current Status` table (change status emoji as appropriate).
-3. Append a row to the `Changelog` table with today's date and a short description.
-4. Recalculate and update the progress bar percentages.
+## Verification Policy
 
----
+Verification is mandatory for every step.
 
-## ✅ Verification Protocol
+1. Run the verification command in `PLANS.md` when available.
+2. If command-based verification is unavailable, perform manual
+   verification against acceptance behavior and record the reason.
+3. Never mark a step complete without verification evidence.
 
-Every change must be verified before it is considered done.
+## Findings and Decisions Policy
 
-### Step-level verification
+When discovering limitations, better approaches, or unexpected behavior:
 
-1. Run the verification command listed in the `Verification` section of `PLANS.md`.
-2. If no command exists yet, manually inspect the artefact and confirm it meets the acceptance criteria.
-3. Record the outcome in the session summary (see below).
+1. Record the observation in `Surprises & Discoveries` with concise
+   evidence.
+2. If approach changes, add a `Decision Log` entry with rationale.
+3. Reflect scope impact by splitting or adding `Progress` items.
 
-### Session summary (append to PR description or commit message)
+## Constraints
 
-```
-## Session Summary — <date>
+- Do not delete or overwrite `PLANS.md` or `AGENTS.md` without explicit
+  human approval.
+- Do not skip verification, including for trivial-looking edits.
+- Do not add dependencies without recording a finding and obtaining
+  approval.
+- Do not push directly to `main`; use branch and PR workflow.
+- Do not expose secrets, credentials, or personal data.
 
-**Step completed:** <step name>
-**Verification:** <PASS / FAIL — brief note>
-**Next step:** <next unchecked item>
-**Blockers:** <none | description>
-```
+## Handoff Rules
 
----
+If a step cannot be completed in one session:
 
-## 🔍 Findings Protocol
+1. Leave repository state coherent and reviewable.
+2. If committing partial work, use a clear `WIP:` prefix.
+3. Update `Progress` to reflect completed versus remaining work precisely.
+4. Record blockers in `Surprises & Discoveries` and `Decision Log`.
+5. Leave an `AGENT RESUME POINT` comment in the most relevant file when
+   helpful.
 
-When you discover something noteworthy (a limitation, a better approach, an unexpected behaviour):
+## References
 
-1. Add a row to the `Findings` table in `PLANS.md`.
-2. Assign it an impact level: **High / Medium / Low**.
-3. Propose a concrete action item.
+- [PLANS.md](./PLANS.md) - canonical living plan and execution state
+- [OpenAI Cookbook: Using PLANS.md for multi-hour problem solving]
+  [execplan-doc]
 
----
+Last updated: 2026-04-18
 
-## 🚫 Constraints
-
-- **Do not** delete or overwrite `PLANS.md` or `AGENTS.md` without explicit human approval.
-- **Do not** skip verification steps, even if the change seems trivial.
-- **Do not** add new dependencies without listing them in a finding and getting approval.
-- **Do not** push directly to `main` — all changes must go through a pull request.
-- **Do not** expose secrets, credentials, or personally identifiable information in any file.
-
----
-
-## 🔄 Handoff Instructions
-
-If you cannot complete a step in one session, leave the repository in a clean state:
-
-1. Commit any partial work to a feature branch with a clear message prefixed `WIP:`.
-2. Update the `Current Status` table with the partial state.
-3. Add a `Blockers` entry to the `Findings` table describing what is unfinished and why.
-4. Leave a `<!-- AGENT RESUME POINT -->` comment in the relevant source file so the next agent can find it quickly.
-
----
-
-## 📚 Reference
-
-- [OpenAI Cookbook: Codex Exec Plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
-- [Anthropic: Claude Code documentation](https://docs.anthropic.com/en/docs/claude-code)
-- [`PLANS.md`](./PLANS.md) — the living project plan for this repository
-
----
-
-*Last updated: 2026-04-18*
+[execplan-doc]: https://developers.openai.com/cookbook/articles/codex_exec_plans

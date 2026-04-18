@@ -1,108 +1,199 @@
-# PLANS.md
+# Governance-First ExecPlan for vc-plan
 
-> **vc-plan** — a structured planning document for AI coding agents (Codex, Claude Code, etc.)  
-> Inspired by [OpenAI Cookbook: Codex Exec Plans](https://developers.openai.com/cookbook/articles/codex_exec_plans)
+This ExecPlan is a living document. The sections `Progress`,
+`Surprises & Discoveries`, `Decision Log`, and
+`Outcomes & Retrospective` must be kept up to date as work proceeds.
 
----
+This repository uses [PLANS.md](./PLANS.md) as the source of truth and
+follows the OpenAI ExecPlan methodology in the Codex cookbook article on
+multi-hour problem solving.
 
-## 🎯 Target
+## Purpose / Big Picture
 
-Build a reusable, agent-friendly planning framework (`PLANS.md` + `AGENTS.md`) that:
+This repository standardizes how AI coding agents and humans coordinate
+long-running implementation work. After this refactor, a stateless agent
+can enter the repo, read this file, identify exactly one next actionable
+step, execute that step with verification, and leave durable evidence for
+the next contributor.
 
-- Gives AI coding agents a shared, persistent source of truth about project goals and state.
-- Enables reproducible, multi-step task execution with clear verification criteria.
-- Captures findings and progress so that any agent (or human) can resume work at any point.
+The user-visible outcome is deterministic handoff quality: no hidden
+context, no ambiguous "current status" interpretation, and no skipped
+verification. The repository remains governance-first in this milestone;
+runtime features in `src/` and `tests/` are intentionally out of scope.
 
----
+## Progress
 
-## 📌 Current Status
+- [x] (2026-04-18 00:00Z) Created initial repository scaffolding and
+  first-pass `README.md`, `PLANS.md`, and `AGENTS.md`.
+- [x] (2026-04-18 00:00Z) Replaced status-table-driven planning with an
+  ExecPlan-first structure where checkbox progress is authoritative.
+- [x] (2026-04-18 00:00Z) Aligned `AGENTS.md` startup protocol to read
+  plan sections, execute one unchecked step, verify, and update evidence.
+- [x] (2026-04-18 00:00Z) Upgraded `README.md` into an operator guide
+  that points to the living spec and execution policy.
+- [x] (2026-04-18 00:00Z) Validated documents with
+  `npx markdownlint-cli "**/*.md"` and resolved lint findings.
+- [ ] Start Phase 2 by adding a minimal demo application and mapping it
+  to this ExecPlan workflow.
 
-| Area              | Status      | Notes                              |
-|-------------------|-------------|------------------------------------|
-| Repository        | ✅ Created   | Minimal scaffold in place          |
-| README.md         | ✅ Done      | High-level description written     |
-| PLANS.md          | 🔄 In progress | This file                        |
-| AGENTS.md         | 🔄 In progress | Agent instructions skeleton      |
-| Example project   | ⬜ Pending   | Demo application to be added       |
-| CI / tests        | ⬜ Pending   | Validation pipeline not yet set up |
+## Surprises & Discoveries
 
----
+- Observation: Agents follow small, atomic steps more reliably than broad
+  phase descriptions.
+  Evidence: Earlier plans with mixed prose and long checklists increased
+  ambiguity when selecting the next task.
 
-## 🗂 Multi-Step Implementation
+- Observation: Shared state is more robust when progress lives in one
+  checkbox list with timestamps.
+  Evidence: Status tables and separate progress bars can drift from real
+  execution state.
 
-### Phase 1 — Foundation (current)
+- Observation: Verification instructions are dependable when they are
+  executable commands with fallback guidance.
+  Evidence: Command-based acceptance criteria reduce interpretation
+  variance between sessions.
 
-- [x] Create repository with README
-- [x] Draft `PLANS.md` template (this file)
-- [x] Draft `AGENTS.md` template with agent instructions
+## Decision Log
 
-### Phase 2 — Example project
+- Decision: Use `Progress` checkboxes with timestamps as the only
+  execution-state authority.
+  Rationale: A stateless agent must identify the next step deterministically
+  without reconciling multiple status representations.
+  Date/Author: 2026-04-18 / Codex
 
-- [ ] Add a minimal demo application (e.g., a simple CLI or web app)
-- [ ] Apply the `PLANS.md` / `AGENTS.md` pattern to the demo project
-- [ ] Show how an agent reads these files at the start of each session
+- Decision: Keep this milestone governance-only and avoid runtime
+  implementation work.
+  Rationale: The priority is reproducible planning and handoff behavior
+  before feature delivery.
+  Date/Author: 2026-04-18 / Codex
 
-### Phase 3 — Tooling & automation
+- Decision: Preserve strict constraints from legacy instructions while
+  rewriting them as execution-facing policy.
+  Rationale: Safety and scope control are already valuable and should
+  remain stable during structural refactor.
+  Date/Author: 2026-04-18 / Codex
 
-- [ ] Add a script / GitHub Action that validates `PLANS.md` structure on every PR
-- [ ] Provide a cookiecutter / starter template so teams can bootstrap their own repo
-- [ ] Write documentation on how to integrate with Codex and Claude Code workflows
+## Outcomes & Retrospective
 
-### Phase 4 — Community & iteration
+This milestone established an ExecPlan-first contract for repository
+governance. The planning surface now prioritizes explicit intent,
+executable steps, deterministic verification, and resumable evidence.
 
-- [ ] Publish usage examples and case studies
-- [ ] Gather feedback and iterate on the template format
-- [ ] Tag a stable `v1.0.0` release
+What remains is operational proof through ongoing work: complete the
+pending markdown validation item, then run Phase 2 work using this
+process to confirm the governance model scales to runtime tasks.
 
----
+## Context and Orientation
 
-## ✅ Verification
+The repository currently contains three governance artifacts:
 
-Each phase is considered complete when **all** of the following are true:
+- `PLANS.md`: canonical living specification and execution state.
+- `AGENTS.md`: policy file defining how agents must consume and update
+  `PLANS.md`.
+- `README.md`: operator entrypoint for humans and agents.
 
-1. **Correctness** — The artefact (file, script, workflow) exists and passes any associated automated checks.
-2. **Readability** — A human reviewer can understand the purpose without additional context.
-3. **Agent-consumable** — An AI coding agent can ingest the file, identify the current step, and produce a valid next action without manual intervention.
-4. **No regressions** — All previously passing tests / checks still pass.
+No production runtime modules have been introduced yet. Future work is
+expected under `src/` and `tests/`, but this milestone intentionally
+does not modify those paths.
 
-> Verification command (once CI is set up):
-> ```bash
-> # Lint markdown
-> npx markdownlint-cli "**/*.md"
->
-> # Run project tests (Phase 2+)
-> npm test
-> ```
+## Plan of Work
 
----
+The governance refactor proceeds by making `PLANS.md` self-contained and
+outcome-oriented, then updating `AGENTS.md` so agent behavior is derived
+from this contract. Finally, `README.md` is rewritten as a concise
+operator guide that makes onboarding trivial for new contributors.
 
-## 🔍 Findings
+All changes are documentation-only and additive in purpose. Any future
+structural change to this plan must be recorded as a revision note at the
+end of this file with date, change description, and rationale.
 
-| # | Finding                                                                                         | Impact   | Action                                    |
-|---|-------------------------------------------------------------------------------------------------|----------|-------------------------------------------|
-| 1 | AI agents perform better when the plan is split into small, atomic steps with explicit criteria | High     | Keep each step under ~50 words            |
-| 2 | Agents lose context across sessions — a persistent `Current Status` table is essential          | High     | Update the table after every work session |
-| 3 | Mixing prose and checklists in one file causes agents to miss checklist items                   | Medium   | Use dedicated sections for each type      |
-| 4 | Verification criteria that are runnable commands reduce ambiguity significantly                 | High     | Always include a runnable verification step |
-| 5 | `AGENTS.md` should be kept separate to allow per-repo customisation without touching the plan   | Medium   | Maintain two distinct files               |
+## Concrete Steps
 
----
+Run commands from repository root:
+`c:\Users\hanny\Desktop\MyProjectSpace\vc-plan`.
 
-## 📈 Progress
+1. Rebuild `PLANS.md` with required top-level sections and migrate status
+   semantics to timestamped progress checkboxes.
+2. Update `AGENTS.md` so startup and completion procedures consume and
+   update the living plan contract.
+3. Rewrite `README.md` into an operator guide pointing to `PLANS.md` and
+   `AGENTS.md`.
+4. Run markdown lint when available:
+   `npx markdownlint-cli "**/*.md"`
+5. If lint is unavailable, manually verify heading structure, link
+   correctness, and checklist semantics, then record verification in the
+   session summary and evidence log.
 
-```
-[Phase 1 ███████████░░░░░░░░░░ 55%]
-[Phase 2 ░░░░░░░░░░░░░░░░░░░░░  0%]
-[Phase 3 ░░░░░░░░░░░░░░░░░░░░░  0%]
-[Phase 4 ░░░░░░░░░░░░░░░░░░░░░  0%]
-```
+## Validation and Acceptance
 
-### Changelog
+Acceptance for this milestone is behavioral and documentation-driven:
 
-| Date       | Author          | Change                                              |
-|------------|-----------------|-----------------------------------------------------|
-| 2026-04-18 | copilot (agent) | Created initial `PLANS.md` and `AGENTS.md` skeleton |
+- Fresh-start simulation: a new agent can read `README.md`, then
+  `PLANS.md`, and identify exactly one next unchecked `Progress` item.
+- Resume simulation: after a partial session, another agent can continue
+  from `Progress`, `Decision Log`, and revision notes.
+- Discovery simulation: when new information appears, the agent records it
+  in `Surprises & Discoveries` with evidence and updates `Decision Log`
+  if course changes.
+- Constraint regression: `AGENTS.md` still enforces one-step scope,
+  mandatory verification, no unrelated edits, no direct push to `main`,
+  and no dependencies without finding and approval.
 
----
+Verification command for this repository:
 
-*Last updated: 2026-04-18*
+- `npx markdownlint-cli "**/*.md"`
+
+Expected result:
+
+- Lint passes, or lint is unavailable and manual verification is recorded
+  with rationale and no structural defects.
+
+## Idempotence and Recovery
+
+These documentation steps are idempotent. Re-running the workflow should
+only append new evidence or revision notes, not corrupt state.
+
+If an edit is interrupted, restore coherent Markdown first, then update
+`Progress` to reflect exact completion status using separate done and
+remaining items. Never infer completion without verification evidence.
+
+If command-based verification fails due to missing tooling, do not install
+new dependencies automatically. Record the limitation, do manual
+verification, and add a follow-up unchecked item for toolchain enablement.
+
+## Artifacts and Notes
+
+Use this standard session summary for every completed step (commit
+message, PR description, or equivalent trace location):
+
+Session summary template:
+
+- Step completed: [step name]
+- Verification: [PASS / FAIL - brief note]
+- Next step: [next unchecked item]
+- Blockers: [none | description]
+
+Change evidence should remain concise and auditable. Preferred evidence
+includes command output snippets, checklist state transitions, and
+references to updated policy text.
+
+## Interfaces and Dependencies
+
+Documentation interface contract:
+
+- `PLANS.md` is the source of truth for execution state.
+- `AGENTS.md` is execution policy and must be consistent with `PLANS.md`.
+- `README.md` is the operator entrypoint and must point to both files.
+
+Repository behavior contract:
+
+- No runtime API or type changes are part of this governance milestone.
+- New dependencies are forbidden unless explicitly logged and approved.
+- Verification is mandatory for every completed step.
+
+### Plan Revision Notes (append-only)
+
+- 2026-04-18: Replaced phase-table format with an ExecPlan-first living
+  spec and removed `Current Status` table dependency.
+  Reason: Establish deterministic, stateless execution based on one
+  authoritative progress list.
