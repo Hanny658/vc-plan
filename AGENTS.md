@@ -51,6 +51,25 @@ proceeding. Do not guess on high-impact unknowns.
 - Preserve existing behavior and keep previously passing checks green.
 - Prefer small commits aligned to one logical change.
 
+## Code Style Principles
+
+- Follow KISS: choose the simplest design that correctly satisfies the
+  current step. Avoid over-complicated methods, speculative
+  abstractions, or extra configurability that nothing in `PLANS.md`
+  currently needs.
+- Avoid over-modularization: do not split logic into new files,
+  classes, or helper functions unless it is reused elsewhere or
+  meaningfully improves readability. A single well-named function beats
+  a chain of one-call wrappers.
+- Reuse before building: before writing new code, check whether an
+  existing module, function, dependency, or a language/framework
+  built-in already does the job. Use it instead of writing a duplicate
+  implementation.
+- Keep comments in place, informative, and concise: explain non-obvious
+  "why" decisions right where they apply; do not restate what the code
+  already says, and remove comments that go stale when you change the
+  code they describe.
+
 ## Completion and Evidence Protocol
 
 After completing a step, update `PLANS.md` in the same session:
@@ -115,6 +134,6 @@ If a step cannot be completed in one session:
 - [OpenAI Cookbook: Using PLANS.md for multi-hour problem solving]
   [execplan-doc]
 
-Last updated: 2026-04-18
+Last updated: 2026-07-21
 
 [execplan-doc]: https://developers.openai.com/cookbook/articles/codex_exec_plans
